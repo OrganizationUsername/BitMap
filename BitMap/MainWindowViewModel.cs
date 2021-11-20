@@ -24,14 +24,16 @@ namespace BitMap
         private readonly Random _rand;
         private int _framesSinceUpdate;
         private readonly int _dpi;
-        public readonly int _height;
-        public readonly int _width;
+        private readonly int _height;
+        private readonly int _width;
+        public int Width => _width;
+        public int Height => _height;
 
         public MainWindowViewModel()
         {
             _rand = new();
-            _width = 1000;
-            _height = 1000;
+            _width = 750;
+            _height = 750;
             _dpi = 96 / 96;
             Wb = new(_width, _height, _dpi, _dpi, PixelFormats.Bgra32, null);
         }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BitMap"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600">
+        Title="MainWindow" Height="825" Width="800">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -18,6 +18,6 @@
             <Run Text="Ball Count: "/>
             <Run Text="{Binding BallCount}"/>
         </TextBlock>
-        <Image Width="500" Height="500" Source="{Binding Wb}" MouseMove="Image_MouseMove" MouseLeave="Image_MouseLeave" />
+        <Image Width="{Binding Width}" Height="{Binding Height}" Source="{Binding Wb}" MouseMove="Image_MouseMove" MouseLeave="Image_MouseLeave" />
     </StackPanel>
 </Window>

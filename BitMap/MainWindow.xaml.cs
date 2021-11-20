@@ -16,14 +16,16 @@ namespace BitMap
         public WriteableBitmap Wb => _vm.Wb;
         private readonly MainWindowViewModel _vm;
         private Point? _point;
+        private readonly int _scaleFactor;
         public MainWindow()
         {
             InitializeComponent();
             _vm = DataContext as MainWindowViewModel;
             if (_vm is null) throw new NullReferenceException("VM");
+            _scaleFactor = 1; //If the Wb is twice the size of the Image control, ScaleFactor should be 2.
 
             DispatcherTimer renderTimer = new(DispatcherPriority.Render);
-            renderTimer.Interval = TimeSpan.FromMilliseconds(10);
+            renderTimer.Interval = TimeSpan.FromMilliseconds(1);
             renderTimer.Tick += RenderTimer_Tick;
             renderTimer.Start();
         }
@@ -32,16 +34,18 @@ namespace BitMap
         {
             if (!_point.HasValue)
             {
-                _point = new(_vm._width / 4d, _vm._height / 4d);
+                //Use center of bitmap as target if not moused over
+                _point = new(_vm.Width / 2d / _scaleFactor, _vm.Height / 2d / _scaleFactor);
             }
 
-            _vm.Tick((int)_point.Value.X * 2, (int)_point.Value.Y * 2);
+            _vm.Tick((int)_point.Value.X * _scaleFactor, (int)_point.Value.Y * _scaleFactor);
 
-            Wb.Lock();
+            Wb.Lock(); //https://docs.microsoft.com/en-us/dotnet/api/system.windows.media.imaging.writeablebitmap.lock?view=windowsdesktop-6.0
             Wb.Clear(Colors.CornflowerBlue);
 
             foreach (var ball in _vm.Balls)
             {
+                //https://github.com/reneschulte/WriteableBitmapEx
                 Wb.FillEllipseCentered((int)ball.Location.X, (int)ball.Location.Y, 5, 5, Color.FromArgb(255, ball.ColorData[0], ball.ColorData[1], ball.ColorData[2]));
             }
             Wb.Unlock();
