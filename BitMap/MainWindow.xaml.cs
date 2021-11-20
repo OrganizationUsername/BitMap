@@ -37,30 +37,12 @@ namespace BitMap
             byte[] colorData = { (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), 255 };
             byte[] black = { 0, 0, 0, 255 };
             var stride = WB.PixelWidth * WB.Format.BitsPerPixel / 8;
-            for (int x = 0; x < WB.PixelWidth; x++)
+            var color = Color.FromArgb(255, (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255)); //Not good for gifs.
+            WB.Clear(Colors.CornflowerBlue);
+
+            foreach (var ball in _vm.Balls)
             {
-                for (int y = 0; y < WB.PixelWidth; y++)
-                {
-                    Int32Rect rect = new(x, y, 1, 1);
-                    bool Any = false;
-                    foreach (var ball in _vm.Balls)
-                    {
-                        if (Vector2.DistanceSquared(new(x, y), ball.Location) < 10)
-                        {
-                            Any = true;
-                            WB.WritePixels(rect, black, stride, 0);
-                            break;
-                        }
-                    }
-                    if (!Any)
-                    {
-                        WB.WritePixels(rect, colorData, stride, 0);
-                    }
-                    foreach (var ball in _vm.Balls)
-                    {
-                        //WB.FillEllipseCentered((int)ball.Location.X, (int)ball.Location.Y, 5, 5, Colors.Blue); //Extremely slow.
-                    }
-                }
+                WB.FillEllipseCentered((int)ball.Location.X, (int)ball.Location.Y, 5, 5, Colors.Blue);
             }
             WB.Unlock();
         }
