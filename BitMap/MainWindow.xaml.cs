@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -42,7 +41,7 @@ namespace BitMap
 
             foreach (var ball in _vm.Balls)
             {
-                WB.FillEllipseCentered((int)ball.Location.X, (int)ball.Location.Y, 5, 5, Colors.Blue);
+                WB.FillEllipseCentered((int)ball.Location.X, (int)ball.Location.Y, 5, 5, Color.FromArgb(255, ball.ColorData[0], ball.ColorData[1], ball.ColorData[2]));
             }
             WB.Unlock();
         }
