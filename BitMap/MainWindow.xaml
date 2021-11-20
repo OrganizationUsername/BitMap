@@ -10,8 +10,14 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
     <StackPanel>
-        <TextBlock Text="{Binding FramesPerSecond}"/>
-        <TextBlock Text="{Binding BallCount}"/>
+        <TextBlock>
+            <Run Text="FPS: "/>
+            <Run Text="{Binding FramesPerSecond}"/>
+        </TextBlock>
+        <TextBlock>
+            <Run Text="Ball Count: "/>
+            <Run Text="{Binding BallCount}"/>
+        </TextBlock>
         <Image x:Name="img" Width="500" Height="500" Source="{Binding WB}" />
     </StackPanel>
 </Window>

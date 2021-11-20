@@ -13,7 +13,12 @@ namespace BitMap
     {
         public WriteableBitmap WB { get; set; }
         public List<Ball> Balls { get; set; } = new();
-        public int BallCount => Balls.Count;
+        public int BallCount
+        {
+            get => Balls.Count;
+            set => _ = value;
+        }
+
         public int FramesPerSecond { get; set; }
         private DateTime _lastFrameUpdate;
         private readonly Random _rand;
