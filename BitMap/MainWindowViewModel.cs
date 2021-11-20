@@ -23,31 +23,31 @@ namespace BitMap
         private DateTime _lastFrameUpdate;
         private readonly Random _rand;
         private int _framesSinceUpdate;
-        private readonly int _width;
         private readonly int _dpi;
-        private readonly int _height;
+        public readonly int _height;
+        public readonly int _width;
 
         public MainWindowViewModel()
         {
             _rand = new();
             _width = 1000;
             _height = 1000;
-            _dpi = 96;
+            _dpi = 96 / 96;
             Wb = new(_width, _height, _dpi, _dpi, PixelFormats.Bgra32, null);
         }
 
-        private void AddBall(int number = 1)
+        private void AddBall(int _x, int _y, int number = 1)
         {
-            for (int i = 0; i < number; i++)
+            for (var i = 0; i < number; i++)
             {
                 var x = _rand.Next(0, _width);
                 var y = _rand.Next(0, _height);
-                var rotation = (float)Math.Atan2((_height / 2) - y, (_width / 2) - x);
+                var rotation = (float)Math.Atan2((_y) - y, (_x) - x);
                 Balls.Add(new() { Location = new(x, y), Rotation = rotation, ColorData = new[] { (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255) } });
             }
         }
 
-        public void Tick()
+        public void Tick(int x, int y)
         {
             if (DateTime.Now - _lastFrameUpdate > TimeSpan.FromSeconds(1))
             {
@@ -63,9 +63,8 @@ namespace BitMap
 
             if (_rand.NextDouble() > 0.25)
             {
-                AddBall(50);
+                AddBall(x, y, 51);
                 OnPropertyChanged(nameof(BallCount));
-
             }
 
             for (var index = 0; index < Balls.Count; index++)
@@ -77,7 +76,6 @@ namespace BitMap
                 {
                     Balls.RemoveAt(index);
                     OnPropertyChanged(nameof(BallCount));
-
                 }
             }
         }
@@ -96,7 +94,6 @@ namespace BitMap
         public Vector2 Location { get; set; }
         public float Rotation { get; set; }
         public byte[] ColorData;
-
     }
 
 }
