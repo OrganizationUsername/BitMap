@@ -11,7 +11,7 @@ namespace BitMap
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public WriteableBitmap WB { get; set; }
+        public WriteableBitmap Wb { get; set; }
         public List<Ball> Balls { get; set; } = new();
         public int BallCount
         {
@@ -33,17 +33,17 @@ namespace BitMap
             _width = 1000;
             _height = 1000;
             _dpi = 96;
-            WB = new(_width, _height, _dpi, _dpi, PixelFormats.Bgra32, null);
+            Wb = new(_width, _height, _dpi, _dpi, PixelFormats.Bgra32, null);
         }
 
-        private void AddBall(int Number = 1)
+        private void AddBall(int number = 1)
         {
-            for (int i = 0; i < Number; i++)
+            for (int i = 0; i < number; i++)
             {
                 var x = _rand.Next(0, _width);
                 var y = _rand.Next(0, _height);
                 var rotation = (float)Math.Atan2((_height / 2) - y, (_width / 2) - x);
-                Balls.Add(new() { Location = new(x, y), Rotation = rotation, ColorData = new byte[] { (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255) } });
+                Balls.Add(new() { Location = new(x, y), Rotation = rotation, ColorData = new[] { (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255), (byte)_rand.Next(0, 255) } });
             }
         }
 

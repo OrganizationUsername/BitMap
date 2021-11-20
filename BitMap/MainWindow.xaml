@@ -18,6 +18,6 @@
             <Run Text="Ball Count: "/>
             <Run Text="{Binding BallCount}"/>
         </TextBlock>
-        <Image x:Name="img" Width="500" Height="500" Source="{Binding WB}" />
+        <Image x:Name="img" Width="500" Height="500" Source="{Binding Wb}" />
     </StackPanel>
 </Window>

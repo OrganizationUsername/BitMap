@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -9,9 +8,9 @@ namespace BitMap
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        public WriteableBitmap WB => _vm.WB;
+        public WriteableBitmap WB => _vm.Wb;
         private Random _rand;
         private MainWindowViewModel _vm;
         public MainWindow()
@@ -21,7 +20,7 @@ namespace BitMap
             if (_vm is null) throw new NullReferenceException("VM");
 
             _rand = new();
-            img.Source = _vm.WB;
+            img.Source = _vm.Wb;
             DispatcherTimer renderTimer = new(DispatcherPriority.Render);
             renderTimer.Interval = TimeSpan.FromMilliseconds(10);
             renderTimer.Tick += RenderTimer_Tick;
@@ -30,8 +29,9 @@ namespace BitMap
 
         private void RenderTimer_Tick(object? sender, EventArgs e)
         {
-            WB.Lock();
             _vm.Tick();
+            WB.Lock();
+
             var stride = WB.PixelWidth * WB.Format.BitsPerPixel / 8;
             WB.Clear(Colors.CornflowerBlue);
 
